@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw on AMD Instinct MI300X — Quick Start</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  :root { --red: #ED1C24; --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --dim: #8b949e; --green: #3fb950; --blue: #58a6ff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 297mm; height: 210mm; overflow: hidden; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+  .page { width: 297mm; height: 210mm; padding: 14mm 18mm 10mm 18mm; display: flex; flex-direction: column; }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  .hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .hdr-logo { width: 36px; height: 36px; flex-shrink: 0; }
+  .hdr h1 { font-size: 1.3rem; line-height: 1.2; }
+  .hdr p { font-size: 0.78rem; color: var(--dim); }
+
+  /* ── Grid: 3 cols x 2 rows ──────────────────────────────── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; flex: 1; min-height: 0; }
+  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .cell-title { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 600; font-size: 0.82rem; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--red); color: #fff; border-radius: 50%; font-weight: 700; font-size: 0.72rem; flex-shrink: 0; }
+  .cell p, .cell li { font-size: 0.72rem; color: var(--dim); line-height: 1.45; }
+  .cell li { margin-left: 1rem; }
+  .cell .hl { color: var(--text); }
+  code { font-family: 'SF Mono', 'Cascadia Code', monospace; background: rgba(110,118,129,0.15); border: 1px solid var(--border); border-radius: 3px; padding: 0.05rem 0.3rem; font-size: 0.7rem; color: var(--blue); }
+  .cmd { display: block; background: #0d1117; border: 1px solid var(--border); border-radius: 5px; padding: 5px 8px; margin: 4px 0; font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 0.72rem; color: var(--green); white-space: pre-wrap; word-break: break-all; }
+  .or-line { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 0.65rem; color: var(--dim); }
+  .or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .key { display: inline-block; padding: 0 4px; background: var(--card); border: 1px solid var(--border); border-radius: 3px; font-family: monospace; font-size: 0.68rem; box-shadow: 0 1px 0 var(--border); }
+  .badge { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+  .b-red { background: rgba(237,28,36,0.12); color: var(--red); border: 1px solid rgba(237,28,36,0.25); }
+  .b-blue { background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.25); }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  .foot { margin-top: 6px; font-size: 0.6rem; color: var(--dim); text-align: center; }
+
+  @media print {
+    html, body { width: 297mm; height: 210mm; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-logo">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="10" fill="#ED1C24"/>
+        <text x="24" y="31" text-anchor="middle" fill="#fff" font-family="Arial Black,sans-serif" font-size="16" font-weight="900">AMD</text>
+      </svg>
+    </div>
+    <div>
+      <h1>OpenClaw on AMD Instinct MI300X — Quick Start</h1>
+      <p>Launch a vGPU-sliced Jupyter notebook (47 GB VRAM) and run the OpenClaw AI agent</p>
+    </div>
+  </div>
+
+  <!-- 3x2 Grid -->
+  <div class="grid">
+
+    <!-- 1 — Login -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">1</span>Sign In</div>
+      <p class="hl">Go to:</p>
+      <div class="cmd">https://notebooks.amd.com/nb-testing</div>
+      <p>Sign in with <span class="badge b-red">ADP SSO</span> (AMD corporate login).</p>
+      <div class="or-line">or — SSO bypass</div>
+      <p>Click <span class="hl">"Trouble signing in?"</span> below the SSO button. Enter your <strong>email</strong> and the passcode below as the password. This logs you in <em>and</em> unlocks the gallery in one step — no SSO needed.</p>
+    </div>
+
+    <!-- 2 — Passcode -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">2</span>Enter Access Passcode</div>
+      <p class="hl">When prompted for the gallery password, enter:</p>
+      <div class="cmd" style="font-size:0.85rem; letter-spacing:0.5px;">oN9wbHWMG3</div>
+      <p>Unlocks the testing gallery for your session.</p>
+      <p style="margin-top:4px;"><strong>If you used the SSO bypass</strong> in Step 1, this step is already done — you'll land directly in the gallery.</p>
+    </div>
+
+    <!-- 3 — Select Card -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">3</span>Launch OpenClaw</div>
+      <p class="hl">In the gallery, click the card:</p>
+      <div class="cmd" style="color:var(--text);">Slicing Test — OpenClaw</div>
+      <p>Tags: <code>GPU</code> <code>MI300X</code> <code>vGPU</code> <code>VRAM Slicing</code> <code>OpenClaw</code></p>
+      <p style="margin-top:4px;">Click the <strong>Launch</strong> button. Wait for JupyterLab to open.</p>
+    </div>
+
+    <!-- 4 — Run Cell 1 -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">4</span>Run the Setup Cell</div>
+      <p>Open <code>openclaw.ipynb</code> from the file browser (left sidebar).</p>
+      <p style="margin-top:4px;" class="hl">Click the <strong>first code cell</strong>, then:</p>
+      <p>&bull; Click <strong>&#9654; Play</strong> in the toolbar, &ensp;<em>or</em>&ensp; press <span class="key">Shift</span>+<span class="key">Enter</span></p>
+      <p style="margin-top:4px;">This starts vLLM (Qwen3-4B), onboards OpenClaw, and launches the gateway. Wait for:</p>
+      <div class="cmd" style="color:var(--text); font-size:0.68rem;">✓ All done! Open a terminal and run:  openclaw tui</div>
+      <p style="font-size:0.65rem; color:var(--dim);">Model loading takes ~2–4 min — logs stream live in the cell output.</p>
+    </div>
+
+    <!-- 5 — Terminal + Hi -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">5</span>Open Terminal &amp; Chat</div>
+      <p>In JupyterLab: click <strong>+</strong> (top-left) → <strong>Terminal</strong>.</p>
+      <p style="margin-top:3px;" class="hl">Start the agent chat:</p>
+      <div class="cmd">openclaw tui</div>
+      <p>Once the TUI loads, say hello:</p>
+      <div class="cmd">Hi</div>
+      <p style="font-size:0.65rem; margin-top:3px;"><code>openclaw tui</code> is a full-screen interactive app — it must run in a terminal, not a notebook cell.</p>
+    </div>
+
+    <!-- 6 — Clone prompt -->
+    <div class="cell">
+      <div class="cell-title"><span class="num">6</span>Ask the Agent to Analyze Code</div>
+      <p>In the same <code>openclaw tui</code> chat, paste:</p>
+      <div class="cmd" style="font-size:0.65rem;">Clone https://github.com/matrived/blr_workshop.git, show me the purpose of each folder and describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb is doing — each cell in 1 line — and what could be improved</div>
+      <p style="margin-top:4px;">The agent clones the repo, inspects the code, and gives you a full analysis — running locally on your MI300X GPU.</p>
+    </div>
+
+  </div>
+
+  <div class="foot">AMD Instinct MI300X · vGPU VRAM Slicing (47 GB) · ROCm · OpenClaw · Qwen3-4B via vLLM</div>
+
+</div>
+</body>
+</html>
