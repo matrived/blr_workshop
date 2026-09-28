@@ -5,42 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OpenClaw on AMD Instinct MI300X — Quick Start</title>
 <style>
-  @page { size: A4 landscape; margin: 0; }
+  @page { size: landscape; margin: 0; }
   :root { --red: #ED1C24; --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --dim: #8b949e; --green: #3fb950; --blue: #58a6ff; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 297mm; height: 210mm; overflow: hidden; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
 
-  .page { width: 297mm; height: 210mm; padding: 14mm 18mm 10mm 18mm; display: flex; flex-direction: column; }
+  .page { width: 100vw; height: 100vh; padding: 1.8vh 2vw 1vh 2vw; display: flex; flex-direction: column; }
 
-  /* ── Header ──────────────────────────────────────────────── */
-  .hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .hdr-logo { width: 36px; height: 36px; flex-shrink: 0; }
-  .hdr h1 { font-size: 1.3rem; line-height: 1.2; }
-  .hdr p { font-size: 0.78rem; color: var(--dim); }
+  /* ── Header ─────────────────────────────────────── */
+  .hdr { display: flex; align-items: center; gap: 16px; margin-bottom: 0.8vh; }
+  .hdr-logo { width: 48px; height: 48px; flex-shrink: 0; }
+  .hdr h1 { font-size: 2rem; line-height: 1.2; }
+  .hdr p  { font-size: 1.2rem; color: var(--dim); }
 
-  /* ── Grid: 3 cols x 2 rows ──────────────────────────────── */
-  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; flex: 1; min-height: 0; }
-  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; overflow: hidden; display: flex; flex-direction: column; }
-  .cell-title { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 600; font-size: 0.82rem; }
-  .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--red); color: #fff; border-radius: 50%; font-weight: 700; font-size: 0.72rem; flex-shrink: 0; }
-  .cell p, .cell li { font-size: 0.72rem; color: var(--dim); line-height: 1.45; }
-  .cell li { margin-left: 1rem; }
+  /* ── Rows ────────────────────────────────────────── */
+  .rows { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 0; }
+
+  .row { display: flex; align-items: stretch; flex: 1; min-height: 0; gap: 0; }
+  .cell { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2vh 1vw; overflow: hidden; display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .arrow-h { display: flex; align-items: center; justify-content: center; width: 3vw; flex-shrink: 0; font-size: 2rem; color: var(--dim); }
+  .arrow-mid { display: flex; align-items: center; justify-content: center; padding: 0.3vh 0; font-size: 1.2rem; color: var(--dim); }
+
+  /* ── Cell content ────────────────────────────────── */
+  .cell-title { display: flex; align-items: center; gap: 10px; margin-bottom: 0.4vh; font-weight: 700; font-size: 1.4rem; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--red); color: #fff; border-radius: 50%; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .cell p { font-size: 1.15rem; color: var(--dim); line-height: 1.35; }
   .cell .hl { color: var(--text); }
-  code { font-family: 'SF Mono', 'Cascadia Code', monospace; background: rgba(110,118,129,0.15); border: 1px solid var(--border); border-radius: 3px; padding: 0.05rem 0.3rem; font-size: 0.7rem; color: var(--blue); }
-  .cmd { display: block; background: #0d1117; border: 1px solid var(--border); border-radius: 5px; padding: 5px 8px; margin: 4px 0; font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 0.72rem; color: var(--green); white-space: pre-wrap; word-break: break-all; }
-  .or-line { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 0.65rem; color: var(--dim); }
+  code { font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; background: rgba(110,118,129,0.15); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.4rem; font-size: 1.05rem; color: var(--blue); }
+  .cmd { display: block; background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 0.5vh 0.6vw; margin: 0.35vh 0; font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace; font-size: 1.1rem; color: var(--green); white-space: pre-wrap; word-break: break-all; }
+  .or-line { display: flex; align-items: center; gap: 8px; margin: 0.3vh 0; font-size: 1rem; color: var(--dim); }
   .or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .key { display: inline-block; padding: 0 4px; background: var(--card); border: 1px solid var(--border); border-radius: 3px; font-family: monospace; font-size: 0.68rem; box-shadow: 0 1px 0 var(--border); }
-  .badge { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+  .key { display: inline-block; padding: 1px 7px; background: var(--card); border: 1px solid var(--border); border-radius: 4px; font-family: monospace; font-size: 1.05rem; box-shadow: 0 1px 0 var(--border); }
+  .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
   .b-red { background: rgba(237,28,36,0.12); color: var(--red); border: 1px solid rgba(237,28,36,0.25); }
-  .b-blue { background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.25); }
 
-  /* ── Footer ──────────────────────────────────────────────── */
-  .foot { margin-top: 6px; font-size: 0.6rem; color: var(--dim); text-align: center; }
+  /* ── Footer ─────────────────────────────────────── */
+  .foot { margin-top: 0.4vh; font-size: 0.85rem; color: var(--dim); text-align: center; }
 
   @media print {
-    html, body { width: 297mm; height: 210mm; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    html, body { width: 100vw; height: 100vh; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
@@ -61,65 +65,77 @@
     </div>
   </div>
 
-  <!-- 3x2 Grid -->
-  <div class="grid">
+  <div class="rows">
 
-    <!-- 1 — Login -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">1</span>Sign In</div>
-      <p class="hl">Go to:</p>
-      <div class="cmd">https://notebooks.amd.com/nb-testing</div>
-      <p>Sign in with <span class="badge b-red">ADP SSO</span> (AMD corporate login).</p>
-      <div class="or-line">or — SSO bypass</div>
-      <p>Click <span class="hl">"Trouble signing in?"</span> below the SSO button. Enter your <strong>email</strong> and the passcode below as the password. This logs you in <em>and</em> unlocks the gallery in one step — no SSO needed.</p>
+    <!-- Row 1: Steps 1 → 2 → 3 -->
+    <div class="row">
+
+      <div class="cell">
+        <div class="cell-title"><span class="num">1</span>Sign In</div>
+        <p class="hl">Go to:</p>
+        <div class="cmd">https://notebooks.amd.com/nb-testing</div>
+        <p>Sign in with <span class="badge b-red">ADP SSO</span> (AMD corporate login).</p>
+        <div class="or-line">or — SSO bypass</div>
+        <p>Click <span class="hl">"Trouble signing in?"</span> below the SSO button. Enter your <strong>email</strong> and passcode <code>oN9wbHWMG3</code> as password. Logs you in <em>and</em> unlocks the gallery in one step.</p>
+      </div>
+
+      <div class="arrow-h">&#10132;</div>
+
+      <div class="cell">
+        <div class="cell-title"><span class="num">2</span>Enter Access Passcode</div>
+        <p class="hl">When prompted for the gallery password, enter:</p>
+        <div class="cmd" style="font-size:1.4rem; letter-spacing:0.5px;">oN9wbHWMG3</div>
+        <p>Unlocks the testing gallery for your session.</p>
+        <p style="margin-top:0.3vh;"><strong>If you used the SSO bypass</strong> in Step 1, this step is already done — you'll land directly in the gallery.</p>
+      </div>
+
+      <div class="arrow-h">&#10132;</div>
+
+      <div class="cell">
+        <div class="cell-title"><span class="num">3</span>Launch OpenClaw</div>
+        <p class="hl">In the gallery, click the card:</p>
+        <div class="cmd" style="color:var(--text); font-size:1.2rem;">Slicing Test — OpenClaw</div>
+        <p>Tags: <code>GPU</code> <code>MI300X</code> <code>vGPU</code> <code>VRAM Slicing</code> <code>OpenClaw</code></p>
+        <p style="margin-top:0.3vh;">Click <strong>Launch</strong>. Wait for JupyterLab to open.</p>
+      </div>
+
     </div>
 
-    <!-- 2 — Passcode -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">2</span>Enter Access Passcode</div>
-      <p class="hl">When prompted for the gallery password, enter:</p>
-      <div class="cmd" style="font-size:0.85rem; letter-spacing:0.5px;">oN9wbHWMG3</div>
-      <p>Unlocks the testing gallery for your session.</p>
-      <p style="margin-top:4px;"><strong>If you used the SSO bypass</strong> in Step 1, this step is already done — you'll land directly in the gallery.</p>
-    </div>
+    <!-- Arrow between rows -->
+    <div class="arrow-mid">&#11147; Step 3 done — continue below</div>
 
-    <!-- 3 — Select Card -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">3</span>Launch OpenClaw</div>
-      <p class="hl">In the gallery, click the card:</p>
-      <div class="cmd" style="color:var(--text);">Slicing Test — OpenClaw</div>
-      <p>Tags: <code>GPU</code> <code>MI300X</code> <code>vGPU</code> <code>VRAM Slicing</code> <code>OpenClaw</code></p>
-      <p style="margin-top:4px;">Click the <strong>Launch</strong> button. Wait for JupyterLab to open.</p>
-    </div>
+    <!-- Row 2: Steps 4 → 5 → 6 -->
+    <div class="row">
 
-    <!-- 4 — Run Cell 1 -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">4</span>Run the Setup Cell</div>
-      <p>Open <code>openclaw.ipynb</code> from the file browser (left sidebar).</p>
-      <p style="margin-top:4px;" class="hl">Click the <strong>first code cell</strong>, then:</p>
-      <p>&bull; Click <strong>&#9654; Play</strong> in the toolbar, &ensp;<em>or</em>&ensp; press <span class="key">Shift</span>+<span class="key">Enter</span></p>
-      <p style="margin-top:4px;">This starts vLLM (Qwen3-4B), onboards OpenClaw, and launches the gateway. Wait for:</p>
-      <div class="cmd" style="color:var(--text); font-size:0.68rem;">✓ All done! Open a terminal and run:  openclaw tui</div>
-      <p style="font-size:0.65rem; color:var(--dim);">Model loading takes ~2–4 min — logs stream live in the cell output.</p>
-    </div>
+      <div class="cell">
+        <div class="cell-title"><span class="num">4</span>Run the Setup Cell <span style="font-size:0.95rem; font-weight:400; color:var(--dim);">(few min)</span></div>
+        <p>Open <code>openclaw.ipynb</code> from the file browser. Click the <strong>first code cell</strong>, then:</p>
+        <p>&bull; Click <strong>&#9654; Play</strong> in the toolbar, &ensp;<em>or</em>&ensp; press <span class="key">Shift</span>+<span class="key">Enter</span></p>
+        <p style="margin-top:0.3vh; font-size:1.25rem; font-weight:600; color:var(--text);">Cell turns <span style="color:#e3b341;">yellow</span> while running — <strong>please wait</strong>. When it succeeds it turns <span style="color:var(--green);">green</span>. Do <strong>not</strong> proceed until <span style="color:var(--green);">green</span>.</p>
+        <p style="margin-top:0.3vh; padding:0.4vh 0.5vw; background:rgba(237,28,36,0.08); border:1px solid rgba(237,28,36,0.2); border-radius:5px;">If the cell turns <span style="color:var(--red); font-weight:600;">red</span> (error), <strong>stop here</strong> — do not continue with Steps 5 &amp; 6.<br><span style="font-size:1.3rem; font-weight:700; color:var(--text);">Report the issue with your email address to the presenter.</span></p>
+      </div>
 
-    <!-- 5 — Terminal + Hi -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">5</span>Open Terminal &amp; Chat</div>
-      <p>In JupyterLab: click <strong>+</strong> (top-left) → <strong>Terminal</strong>.</p>
-      <p style="margin-top:3px;" class="hl">Start the agent chat:</p>
-      <div class="cmd">openclaw tui</div>
-      <p>Once the TUI loads, say hello:</p>
-      <div class="cmd">Hi</div>
-      <p style="font-size:0.65rem; margin-top:3px;"><code>openclaw tui</code> is a full-screen interactive app — it must run in a terminal, not a notebook cell.</p>
-    </div>
+      <div class="arrow-h">&#10132;</div>
 
-    <!-- 6 — Clone prompt -->
-    <div class="cell">
-      <div class="cell-title"><span class="num">6</span>Ask the Agent to Analyze Code</div>
-      <p>In the same <code>openclaw tui</code> chat, paste:</p>
-      <div class="cmd" style="font-size:0.65rem;">Clone https://github.com/matrived/blr_workshop.git, show me the purpose of each folder and describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb is doing — each cell in 1 line — and what could be improved</div>
-      <p style="margin-top:4px;">The agent clones the repo, inspects the code, and gives you a full analysis — running locally on your MI300X GPU.</p>
+      <div class="cell">
+        <div class="cell-title"><span class="num">5</span>Open Terminal &amp; Chat</div>
+        <p>In JupyterLab: click <strong>+</strong> (top-left) → <strong>Terminal</strong>.</p>
+        <p style="margin-top:0.3vh;" class="hl">Start the agent chat:</p>
+        <div class="cmd">openclaw tui</div>
+        <p>Once the TUI loads, say hello:</p>
+        <div class="cmd">Hi</div>
+        <p><code>openclaw tui</code> is interactive — must run in a terminal, not a notebook cell.</p>
+      </div>
+
+      <div class="arrow-h">&#10132;</div>
+
+      <div class="cell">
+        <div class="cell-title"><span class="num">6</span>Ask Agent to Analyze Code</div>
+        <p>In the same <code>openclaw tui</code> chat, paste:</p>
+        <div class="cmd" style="font-size:1rem;">Clone https://github.com/matrived/blr_workshop.git, show me the purpose of each folder and describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb is doing — each cell in 1 line — and what could be improved</div>
+        <p style="margin-top:0.3vh;">The agent clones the repo, inspects code, and gives a full analysis — running locally on your MI300X.</p>
+      </div>
+
     </div>
 
   </div>
