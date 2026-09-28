@@ -74,19 +74,20 @@
         <div class="cell-title"><span class="num">1</span>Sign In</div>
         <p class="hl">Go to:</p>
         <div class="cmd">https://notebooks.amd.com/nb-testing</div>
-        <p>Sign in with <span class="badge b-red">ADP SSO</span> (AMD corporate login).</p>
-        <div class="or-line">or — SSO bypass</div>
-        <p>Click <span class="hl">"Trouble signing in?"</span> below the SSO button. Enter your <strong>email</strong> and passcode <code>oN9wbHWMG3</code> as password. Logs you in <em>and</em> unlocks the gallery in one step.</p>
+        <p style="font-size:1.3rem; font-weight:700; color:var(--text);">Click on <span style="color:var(--blue); text-decoration:underline;">"Trouble signing in?"</span></p>
+        <p>Enter your <strong>email</strong> and passcode as password:</p>
+        <div class="cmd" style="font-size:1.4rem; letter-spacing:0.5px;">oN9wbHWMG3</div>
+        <p>This logs you in <em>and</em> unlocks the gallery in one step — <strong>skip Step 2</strong>.</p>
       </div>
 
       <div class="arrow-h">&#10132;</div>
 
       <div class="cell">
-        <div class="cell-title"><span class="num">2</span>Enter Access Passcode</div>
-        <p class="hl">When prompted for the gallery password, enter:</p>
+        <div class="cell-title"><span class="num">2</span>Enter Access Passcode <span style="font-size:0.95rem; font-weight:400; color:var(--dim);">(SSO only)</span></div>
+        <p>Only needed if you signed in via <span class="badge b-red">ADP SSO</span> instead of the bypass.</p>
+        <p class="hl" style="margin-top:0.3vh;">When prompted for the gallery password, enter:</p>
         <div class="cmd" style="font-size:1.4rem; letter-spacing:0.5px;">oN9wbHWMG3</div>
-        <p>Unlocks the testing gallery for your session.</p>
-        <p style="margin-top:0.3vh;"><strong>If you used the SSO bypass</strong> in Step 1, this step is already done — you'll land directly in the gallery.</p>
+        <p style="margin-top:0.3vh;"><strong>Most users should use the bypass in Step 1</strong> — it's faster and skips this step entirely.</p>
       </div>
 
       <div class="arrow-h">&#10132;</div>
@@ -115,7 +116,7 @@
         <p style="margin-top:0.3vh; padding:0.4vh 0.5vw; background:rgba(237,28,36,0.08); border:1px solid rgba(237,28,36,0.2); border-radius:5px;">If the cell turns <span style="color:var(--red); font-weight:600;">red</span> (error), <strong>stop here</strong> — do not continue with Steps 5 &amp; 6.<br><span style="font-size:1.3rem; font-weight:700; color:var(--text);">Report the issue with your email address to the presenter.</span></p>
       </div>
 
-      <div class="arrow-h">&#10132;</div>
+      <div class="arrow-h" style="flex-direction:column; font-size:1.6rem;">&#10132;<span style="font-size:0.85rem; color:#e3b341; font-weight:600; white-space:nowrap;">~1-2 min</span></div>
 
       <div class="cell">
         <div class="cell-title"><span class="num">5</span>Open Terminal &amp; Chat</div>
@@ -132,7 +133,7 @@
       <div class="cell">
         <div class="cell-title"><span class="num">6</span>Ask Agent to Analyze Code</div>
         <p>In the same <code>openclaw tui</code> chat, paste:</p>
-        <div class="cmd" style="font-size:1rem;">Clone https://github.com/matrived/blr_workshop.git, show me the purpose of each folder and describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb is doing — each cell in 1 line — and what could be improved</div>
+        <div class="cmd" style="font-size:1rem;">Clone https://github.com/matrived/blr_workshop.git in /workspace directory, show me the repository structure line-by-line one-liner description of them and also describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb file is doing in each cell in 1 line and lastly what could be improved</div>
         <p style="margin-top:0.3vh;">The agent clones the repo, inspects code, and gives a full analysis — running locally on your MI300X.</p>
       </div>
 
