@@ -120,12 +120,13 @@
 
       <div class="cell" style="flex:2;">
         <div class="cell-title"><span class="num">5</span>Chat with OpenClaw</div>
-        <p class="hl">Open a <strong>Terminal</strong> in JupyterLab:</p>
-        <p style="margin-top:0.2vh; font-size:1.3rem; font-weight:700; color:var(--text);">File &gt; New &gt; Terminal</p>
-        <p style="margin-top:0.3vh;">Run this command:</p>
-        <div class="cmd">openclaw tui</div>
-        <p style="margin-top:0.3vh;">Type <code>Hi</code> and press <span class="key">Enter</span> to say hello. Then try this prompt:</p>
-        <div class="cmd" style="font-size:0.9rem;">Clone https://github.com/matrived/blr_workshop.git in /workspace directory, show me the repository structure line-by-line one-liner description of them and also describe cell-by-cell what unsloth-finetuning/grpo_game2048-finetune-unsloth/gpt_oss_20B_Reinforcement_Learning_2048_Game_BF16.ipynb file is doing in each cell in 1 line and lastly what could be improved</div>
+        <p class="hl">Run the <strong>second code cell</strong> in the notebook (<strong>Step 2</strong>).</p>
+        <p style="margin-top:0.2vh;">&bull; Click <strong>&#9654; Play</strong> in the toolbar, &ensp;<em>or</em>&ensp; press <span class="key">Shift</span>+<span class="key">Enter</span></p>
+        <p style="margin-top:0.3vh;">It sends two prompts to OpenClaw and prints the responses:</p>
+        <p style="margin-top:0.2vh;"><strong>1.</strong> <code>Hi</code> — quick sanity check</p>
+        <p><strong>2.</strong> <em>Clone &amp; Analyze</em> — clones a repo and asks the agent to describe its structure, notebook cells, and suggest improvements</p>
+        <p style="margin-top:0.5vh; font-size:1.15rem; font-weight:600; color:var(--text);">Wait for both responses to appear. The clone prompt may take ~10-30 seconds.</p>
+        <p style="margin-top:0.5vh; font-size:1rem; color:var(--dim);">Want interactive chat? Open a terminal (<strong>File &gt; New &gt; Terminal</strong>) and run <code>openclaw tui</code></p>
       </div>
 
     </div>
